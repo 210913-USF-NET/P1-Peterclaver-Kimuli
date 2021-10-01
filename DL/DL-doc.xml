@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DL</name>
+    </assembly>
+    <members>
+        <member name="T:DL.DBRepo">
+            <summary>
+            This is the class that contains methods that interact with the DBContext. It implements the IRepo interface.
+            </summary>
+        </member>
+        <member name="M:DL.DBRepo.#ctor(DL.Entities.ShoppingAppDBContext)">
+            <summary>
+            This is a constructor of the DBRepo class.
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:DL.DBRepo.AddCustomer(Models.Customer)">
+            <summary>
+            This is the method that sign ups the customer
+            </summary>
+            <param name="cust">Customer Object to be added in the DB</param>
+            <returns>Returns an object of a customer that has been successfully added to the DB.</returns>
+        </member>
+        <member name="M:DL.DBRepo.AddProduct(Models.Product)">
+            <summary>
+            This is the method that adds a product to the DB
+            </summary>
+            <param name="product">Product object to be added in the DB</param>
+            <returns>Returns an object of a product that has been successfully added to the DB.</returns>
+        </member>
+        <member name="M:DL.DBRepo.AddStore(Models.Store)">
+            <summary>
+            This is the method used when creating a new store.
+            </summary>
+            <param name="store">Store object to be added in the DB</param>
+            <returns>Returns an object of a store that has been successfully added to the DB.</returns>
+        </member>
+        <member name="M:DL.DBRepo.AddToStoreProduct(System.String,System.Int32)">
+            <summary>
+            This method is not relevant as of now. Will recheck it later on.
+            </summary>
+            <param name="storeNumber">Store ID</param>
+            <param name="productID">Product ID</param>
+        </member>
+        <member name="M:DL.DBRepo.GetCustomerSearch(System.String)">
+            <summary>
+            This method is used when a manager is searching for a customer
+            </summary>
+            <param name="name">Customer name</param>
+            <returns>Returns an object of a customer if they exist in the DB.</returns>
+        </member>
+        <member name="M:DL.DBRepo.GetLoggedInCustomer(System.String,System.String)">
+            <summary>
+            This method is used when a customer is logging in the DB.
+            </summary>
+            <param name="phonenumber">Customer phone number</param>
+            <param name="password">Customer password</param>
+            <returns>Returns an object of a customer if they exist in the DB.</returns>
+        </member>
+        <member name="M:DL.DBRepo.GetManagers(System.String,System.String)">
+            <summary>
+            This method is used when a manager is logging in
+            </summary>
+            <param name="phonenumber">Manager phone number</param>
+            <param name="password">Manager password</param>
+            <returns>Returns an object of a manager if they exist in the DB</returns>
+        </member>
+        <member name="M:DL.DBRepo.GetProducts(System.String)">
+            <summary>
+            This method returns the products stored in the DB
+            </summary>
+            <param name="storeNumber">The store ID number</param>
+            <returns>Returns a list of products if they exist in the DB</returns>
+        </member>
+        <member name="M:DL.DBRepo.GetManagerStores(System.String)">
+            <summary>
+            This method returns only the stores that were created by a particular manager
+            </summary>
+            <param name="managerNumber">The manager's phone number</param>
+            <returns>Returns a list of stores if they exist in the DB</returns>
+        </member>
+        <member name="M:DL.DBRepo.GetCustomerStores">
+            <summary>
+            This methods returns from the DB customers that have ordered from a particular
+            </summary>
+            <returns>Returns a list of customer that ordered from a store if they exist in the DB</returns>
+        </member>
+        <member name="M:DL.DBRepo.AddOrder(Models.Order)">
+            <summary>
+            This method adds a customer order to the DB.
+            </summary>
+            <param name="order">Order object to be added to the DB</param>
+            <returns>The order object added to the DB</returns>
+        </member>
+        <member name="M:DL.DBRepo.AddLineItems(System.Collections.Generic.List{Models.LineItem})">
+            <summary>
+            This method adds the order items to the DB
+            </summary>
+            <param name="items">Items list to add to the DB</param>
+            <returns>Returns a list of items successfully added to the DB</returns>
+        </member>
+        <member name="M:DL.DBRepo.GetCustomerOrders(System.String)">
+            <summary>
+            This method returns the orders that were made by a particular customer sorted by Date.
+            </summary>
+            <param name="customerNumber">Customer phone number</param>
+            <returns>A list of orders that were made by a customer sorted by Date.</returns>
+        </member>
+        <member name="M:DL.DBRepo.GetCustomerOrdersByCost(System.String)">
+            <summary>
+            This method returns the orders that were made by a particular customer sorted by Total cost.
+            </summary>
+            <param name="customerNumber">Customer phone number</param>
+            <returns>A list of orders that were made by a customer sorted by Total cost.</returns>
+        </member>
+        <member name="M:DL.DBRepo.GetStoreOrders(System.String)">
+            <summary>
+            This method returns the orders that were made to a particular store sorted by Date.
+            </summary>
+            <param name="storeNumber">Store ID</param>
+            <returns>A list of orders that were made to a particular store sorted by Date.</returns>
+        </member>
+        <member name="M:DL.DBRepo.GetStoreOrdersByCost(System.String)">
+            <summary>
+            This method returns the orders that were made to a particular store sorted by Total cost.
+            </summary>
+            <param name="storeNumber">Store ID</param>
+            <returns>A list of orders that were made to a particular store sorted by Total cost.</returns>
+        </member>
+        <member name="M:DL.DBRepo.UpdateProduct(Models.Product)">
+            <summary>
+            This method is used when a manager is changing the quantity number of a product.
+            </summary>
+            <param name="product">The product object to be changed in the DB</param>
+        </member>
+    </members>
+</doc>

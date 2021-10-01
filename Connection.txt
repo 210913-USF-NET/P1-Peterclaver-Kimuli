@@ -1,0 +1,1 @@
+Server=tcp:rrdb-peter-server.database.windows.net,1433;Initial Catalog=ShoppingAppDB;Persist Security Info=False;User ID=rrdb-peter-admin;Password=cedatGod132;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
