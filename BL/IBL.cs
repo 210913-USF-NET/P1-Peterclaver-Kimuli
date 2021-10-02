@@ -13,7 +13,7 @@ namespace BL
         List<Store> GetManagerStores(string managerNumber);
         List<Store> GetCustomerStores();
         Product AddProduct(Product product);
-        void AddToStoreProduct(string storeNumber, int productID);
+        //void AddToStoreProduct(string storeNumber, int productID);
         List<Product> GetProducts(string storeNumber);
         List<Customer> GetCustomerSearch(string name);
         Order AddOrder(Order order);

@@ -41,10 +41,10 @@ namespace BL
             return _repo.AddProduct(product);
         }
 
-        public void AddToStoreProduct(string storeNumber, int productID)
+        /*public void AddToStoreProduct(string storeNumber, int productID)
         {
             _repo.AddToStoreProduct(storeNumber, productID);
-        }
+        }*/
 
         public List<Product> GetProducts(string storeNumber)
         {

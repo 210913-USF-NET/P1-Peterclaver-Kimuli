@@ -16,6 +16,7 @@ namespace Models
             this.Password2 = password2;
         }
 
+        public int Id { get; set; }
         //creating name validation
         private string _name;
 

@@ -15,6 +15,7 @@ namespace Models
             this.Zipcode = zipcode;
         }
 
+        public int Id { get; set; }
         public string ManagerPhone{get; set;}
 
         //Validating the store number
