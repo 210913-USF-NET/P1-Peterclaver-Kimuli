@@ -38,8 +38,8 @@ namespace WebUI
             //finally, we add all the other dependencies, such as BL, Repos.
             //This uses inversion of control, which means that we specify what kind of 
             //concrete classes implement interfaces.
-            //services.AddScoped<IRepo, DBRepo>();
-            //services.AddScoped<IBL, CBL>();
+            services.AddScoped<IRepo, DBRepo>();
+            services.AddScoped<IBL, CBL>();
             //^that's our dependency injection.
             //We're "registering" the dependencies that our controllers need!
         }

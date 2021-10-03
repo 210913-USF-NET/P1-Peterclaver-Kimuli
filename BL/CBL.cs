@@ -13,7 +13,7 @@ namespace BL
             _repo = repo;
         }
 
-        public List<Customer> GetLoggedInCustomer(string phonenumber, string password){
+        public Customer GetLoggedInCustomer(string phonenumber, string password){
             return _repo.GetLoggedInCustomer(phonenumber, password);
         }
 

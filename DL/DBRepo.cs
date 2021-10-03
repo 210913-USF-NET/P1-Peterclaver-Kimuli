@@ -29,29 +29,39 @@ namespace DL
         /// <param name="cust">Customer Object to be added in the DB</param>
         /// <returns>Returns an object of a customer that has been successfully added to the DB.</returns>
         public Customer AddCustomer(Customer cust){
-            Customer custToAdd = new Customer(){
-                Phonenumber = cust.Phonenumber,
-                Name = cust.Name,
-                Password = cust.Password,
-                Password2 = cust.Password2
-            };
+            Customer returnedCust = _context.Customers.FirstOrDefault(c => c.Phonenumber == cust.Phonenumber);
 
-            //Adding the custToAdd obj to change tracker
-            custToAdd = _context.Add(custToAdd).Entity;
-
-            //the "changes" are not executed until I call the SaveChanges method
-            _context.SaveChanges();
-
-            //the below line clears the changetracker so it returns to a clean slate
-            _context.ChangeTracker.Clear();
-
-            return new Customer()
+            if(returnedCust == null)
             {
-                Phonenumber = custToAdd.Phonenumber,
-                Name = custToAdd.Name,
-                Password = custToAdd.Password,
-                Password2 = custToAdd.Password2
-            };
+                Customer custToAdd = new Customer()
+                {
+                    Phonenumber = cust.Phonenumber,
+                    Name = cust.Name,
+                    Password = cust.Password,
+                    Password2 = cust.Password2
+                };
+
+                //Adding the custToAdd obj to change tracker
+                custToAdd = _context.Add(custToAdd).Entity;
+
+                //the "changes" are not executed until I call the SaveChanges method
+                _context.SaveChanges();
+
+                //the below line clears the changetracker so it returns to a clean slate
+                _context.ChangeTracker.Clear();
+
+                return new Customer()
+                {
+                    Phonenumber = custToAdd.Phonenumber,
+                    Name = custToAdd.Name,
+                    Password = custToAdd.Password,
+                    Password2 = custToAdd.Password2
+                };
+            }
+            else
+            {
+                return null;
+            }
         }
 
         //Add a product to the DB
@@ -150,20 +160,23 @@ namespace DL
         /// <param name="phonenumber">Customer phone number</param>
         /// <param name="password">Customer password</param>
         /// <returns>Returns an object of a customer if they exist in the DB.</returns>
-        public List<Customer> GetLoggedInCustomer(string phonenumber, string password){
-            List<Customer> loggedInCust = new List<Customer>();
+        public Customer GetLoggedInCustomer(string phonenumber, string password){
+          Customer returnedCust = _context.Customers.FirstOrDefault(c => c.Phonenumber == phonenumber && c.Password == password);
 
-            loggedInCust = _context.Customers.Where(
-                cust => cust.Phonenumber == phonenumber && cust.Password == password
-            ).Select(
-                c => new Customer(){
-                    Phonenumber = c.Phonenumber,
-                    Name = c.Name,
-                    Password = c.Password
-                }
-            ).ToList();
-
-            return loggedInCust;
+            if (returnedCust != null)
+            {
+                return new Customer()
+                {
+                    Phonenumber = returnedCust.Phonenumber,
+                    Name = returnedCust.Name,
+                    Password = returnedCust.Password,
+                    Password2 = returnedCust.Password2
+                };
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
