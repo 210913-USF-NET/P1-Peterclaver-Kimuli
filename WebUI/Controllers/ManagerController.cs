@@ -9,36 +9,37 @@ using BL;
 
 namespace WebUI.Controllers
 {
-    public class StoreController : Controller
+    public class ManagerController : Controller
     {
         private IBL _bl;
 
-        public StoreController(IBL bl)
+        public ManagerController(IBL bl)
         {
             _bl = bl;
         }
-        // GET: StoreController
+
+        // GET: ManagerController
         public ActionResult Index(int id)
         {
-            ViewBag.Customer = _bl.GetOneCustomer(id);
+            ViewBag.Manager = _bl.GetOneManager(id);
 
-            List<Store> stores = _bl.GetCustomerStores();
+            List<Store> stores = _bl.GetManagerStores(ViewBag.Manager.Phonenumber);
             return View(stores);
         }
 
-        // GET: StoreController/Details/5
+        // GET: ManagerController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: StoreController/Create
+        // GET: ManagerController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: StoreController/Create
+        // POST: ManagerController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -53,13 +54,13 @@ namespace WebUI.Controllers
             }
         }
 
-        // GET: StoreController/Edit/5
+        // GET: ManagerController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: StoreController/Edit/5
+        // POST: ManagerController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -74,13 +75,13 @@ namespace WebUI.Controllers
             }
         }
 
-        // GET: StoreController/Delete/5
+        // GET: ManagerController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: StoreController/Delete/5
+        // POST: ManagerController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

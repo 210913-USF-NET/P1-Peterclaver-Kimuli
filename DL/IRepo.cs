@@ -7,7 +7,9 @@ namespace DL
     {
         Customer AddCustomer(Customer cust);
         Customer GetLoggedInCustomer(string phonenumber, string password);
-        List<Manager> GetManagers(string phonenumber, string password);
+        Customer GetOneCustomer(int id);
+        Manager GetManager(string phonenumber, string password);
+        Manager GetOneManager(int id);
         Store AddStore(Store store);
         List<Store> GetManagerStores(string managerNumber);
         List<Store> GetCustomerStores();

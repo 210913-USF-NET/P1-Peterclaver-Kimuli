@@ -17,13 +17,23 @@ namespace BL
             return _repo.GetLoggedInCustomer(phonenumber, password);
         }
 
+        public Customer GetOneCustomer(int id)
+        {
+            return _repo.GetOneCustomer(id);
+        }
+
         public Customer AddCustomer(Customer cust){
             return _repo.AddCustomer(cust);
         }
 
-        public List<Manager> GetManagers(string phonenumber, string password)
+        public Manager GetManager(string phonenumber, string password)
         {
-            return _repo.GetManagers(phonenumber, password);
+            return _repo.GetManager(phonenumber, password);
+        }
+
+        public Manager GetOneManager(int id)
+        {
+            return _repo.GetOneManager(id);
         }
 
         public Store AddStore(Store store)

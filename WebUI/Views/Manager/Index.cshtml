@@ -4,8 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>ShoppingApp</h1>
-<h3>Welcome @ViewBag.Customer.Name</h3>
+<h1>Index</h1>
+<h3>Welcome @ViewBag.Manager.Name</h3>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -55,6 +55,6 @@
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
-} 
+}
     </tbody>
 </table>

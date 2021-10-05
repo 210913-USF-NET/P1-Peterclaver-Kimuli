@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Models;
 using BL;
+using WebUI.Models;
 
 namespace WebUI.Controllers
 {
@@ -31,11 +32,19 @@ namespace WebUI.Controllers
                     Customer cust = _bl.GetLoggedInCustomer(customer.Phonenumber, customer.Password);
                     if (cust == null)
                     {
-                        return View();
+                        Manager manager = _bl.GetManager(customer.Phonenumber, customer.Password);
+                        if (manager == null)
+                        {
+                            return RedirectToAction("Error", "Home");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Manager", new { id = manager.Id });
+                        }
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Store");
+                        return RedirectToAction("Index", "Store", new { id = cust.Id});
                     }
 
                 }
@@ -58,16 +67,16 @@ namespace WebUI.Controllers
         // POST: CustomerController/Signup
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Signup(Customer customer)
+        public ActionResult Signup(CustomerVM customer)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    Customer cust = _bl.AddCustomer(customer);
+                    Customer cust = _bl.AddCustomer(customer.ToModel());
                     if (cust == null)
                     {
-                        return View();
+                        return RedirectToAction("Error", "Home");
                     }
                     else
                     {

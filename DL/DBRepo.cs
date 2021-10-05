@@ -167,6 +167,32 @@ namespace DL
             {
                 return new Customer()
                 {
+                    Id = returnedCust.Id,
+                    Phonenumber = returnedCust.Phonenumber,
+                    Name = returnedCust.Name,
+                    Password = returnedCust.Password,
+                    Password2 = returnedCust.Password2
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns a customer whose ID matches the id parameter
+        /// </summary>
+        /// <param name="id">ID that is to be searched for in the DB.</param>
+        /// <returns></returns>
+        public Customer GetOneCustomer(int id)
+        {
+            Customer returnedCust = _context.Customers.FirstOrDefault(c => c.Id == id);
+
+            if (returnedCust != null)
+            {
+                return new Customer()
+                {
                     Phonenumber = returnedCust.Phonenumber,
                     Name = returnedCust.Name,
                     Password = returnedCust.Password,
@@ -185,16 +211,45 @@ namespace DL
         /// <param name="phonenumber">Manager phone number</param>
         /// <param name="password">Manager password</param>
         /// <returns>Returns an object of a manager if they exist in the DB</returns>
-        public List<Manager> GetManagers(string phonenumber, string password)
+        public Manager GetManager(string phonenumber, string password)
         {
-            return _context.Managers.Where(manager => manager.Phonenumber == phonenumber
-            && manager.Password == password).Select(
-                m => new Manager(){
-                    Phonenumber = m.Phonenumber,
-                    Name = m.Name,
-                    Password = m.Password
-                }
-            ).ToList();
+            Manager manager = _context.Managers.FirstOrDefault(c => c.Phonenumber == phonenumber && c.Password == password);
+
+            if (manager != null)
+            {
+                return new Manager()
+                {
+                    Id = manager.Id,
+                    Phonenumber = manager.Phonenumber,
+                    Name = manager.Name,
+                    Password = manager.Password,
+                    Password2 = manager.Password2
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public Manager GetOneManager(int id)
+        {
+            Manager manager = _context.Managers.FirstOrDefault(c => c.Id == id);
+
+            if (manager != null)
+            {
+                return new Manager()
+                {
+                    Phonenumber = manager.Phonenumber,
+                    Name = manager.Name,
+                    Password = manager.Password,
+                    Password2 = manager.Password2
+                };
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
