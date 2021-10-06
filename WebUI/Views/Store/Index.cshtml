@@ -5,7 +5,16 @@
 }
 
 <h1>ShoppingApp</h1>
-<h3>Welcome @ViewBag.Customer.Name</h3>
+<h5> @ViewBag.Name</h5>
+
+@if (ViewBag.Success != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@ViewBag.Success");
+        };
+    </script>
+}
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -14,13 +23,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ManagerPhone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Number)
+               Store Name
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Location)
@@ -32,29 +35,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ManagerPhone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Number)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Zipcode)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-} 
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Zipcode)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id=item.Id }) 
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<a asp-action="Logout">Logout</a>

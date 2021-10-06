@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Models;
 using BL;
 using WebUI.Models;
+using Serilog;
 
 namespace WebUI.Controllers
 {
@@ -35,16 +36,28 @@ namespace WebUI.Controllers
                         Manager manager = _bl.GetManager(customer.Phonenumber, customer.Password);
                         if (manager == null)
                         {
-                            return RedirectToAction("Error", "Home");
+                            Log.Warning("Failed to Login");
+                            ViewBag.Message = "Incorrect phonenumber or password. Please try again!";
+                            return View(); 
                         }
                         else
                         {
-                            return RedirectToAction("Index", "Manager", new { id = manager.Id });
+                            Log.Information("Manager successfully Logged in.");
+
+                            HttpContext.Session.SetString("manager", manager.Name);
+                            HttpContext.Session.SetString("phonenumber", manager.Phonenumber);
+
+                            return RedirectToAction("Index", "Manager");
                         }
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Store", new { id = cust.Id});
+                        Log.Information("Successfully Logged in.");
+                        
+                        HttpContext.Session.SetString("name", cust.Name);
+                        HttpContext.Session.SetString("phonenumber", cust.Phonenumber);
+
+                        return RedirectToAction("Index", "Store");
                     }
 
                 }
@@ -76,11 +89,21 @@ namespace WebUI.Controllers
                     Customer cust = _bl.AddCustomer(customer.ToModel());
                     if (cust == null)
                     {
-                        return RedirectToAction("Error", "Home");
+                        Log.Warning("Failed to Signup");
+                        ViewBag.Message = "Phone number already in use. Please try another!";
+                        return View();
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Store");
+
+                        Log.Information("Account Successfully created.");
+
+                        HttpContext.Session.SetString("name", cust.Name);
+                        HttpContext.Session.SetString("phonenumber", cust.Phonenumber);
+
+                        ViewBag.Success = "Account Created Successfully";
+
+                        return RedirectToAction("Index", "Store", new { message = "Account successfully created!" });
                     }
                     
                 }

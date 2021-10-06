@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Models;
 using BL;
+using WebUI.Models;
+using Serilog;
 
 namespace WebUI.Controllers
 {
@@ -19,12 +21,33 @@ namespace WebUI.Controllers
         }
 
         // GET: ManagerController
-        public ActionResult Index(int id)
+        public ActionResult Index(string message)
         {
-            ViewBag.Manager = _bl.GetOneManager(id);
+            if(HttpContext.Session.GetString("manager") == null)
+            {
+                return RedirectToAction("Index", "Customer");
+            }
+            else
+            {
+                ViewBag.Name = HttpContext.Session.GetString("manager");
 
-            List<Store> stores = _bl.GetManagerStores(ViewBag.Manager.Phonenumber);
-            return View(stores);
+                ViewBag.Message = message;
+
+                List<Store> stores = _bl.GetManagerStores(HttpContext.Session.GetString("phonenumber"));
+                return View(stores);
+            }
+            
+        }
+        
+        // GET: CustomerController/Index
+        public ActionResult Logout()
+        {
+            HttpContext.Session.Remove("manager");
+            HttpContext.Session.Remove("phonenumber");
+
+            Log.Information("Manager Logged out...");
+
+            return RedirectToAction("Index", "Customer");
         }
 
         // GET: ManagerController/Details/5
@@ -33,19 +56,27 @@ namespace WebUI.Controllers
             return View();
         }
 
-        // GET: ManagerController/Create
-        public ActionResult Create()
+        // GET: ManagerController/Create/5
+        public ActionResult Create(int id)
         {
             return View();
         }
 
         // POST: ManagerController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        [ValidateAntiForgeryToken] 
+        public ActionResult Create(StoreVM store)
         {
             try
             {
+                if (ModelState.IsValid)
+                {
+                    store.ManagerPhone = HttpContext.Session.GetString("phonenumber");
+                    Store addedStore = _bl.AddStore(store.ToModel());
+
+                    return RedirectToAction("Index", "Manager", new { message = "Store successfully created" });
+                    Log.Information("Store created Successfully");
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch

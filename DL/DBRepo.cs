@@ -52,6 +52,7 @@ namespace DL
 
                 return new Customer()
                 {
+                    Id = custToAdd.Id,
                     Phonenumber = custToAdd.Phonenumber,
                     Name = custToAdd.Name,
                     Password = custToAdd.Password,

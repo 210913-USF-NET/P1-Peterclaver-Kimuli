@@ -49,16 +49,9 @@ namespace Models
             }
             set
             {
-                Regex pattern = new Regex("^[a-zA-Z0-9 ,!&/']+$");
                 if(value.Length == 0)
                 {
                     InputInvalidException e = new InputInvalidException("Please fill in a store location.");
-                    Log.Warning(e.Message);
-                    throw e;
-                }
-                if(!pattern.IsMatch(value))
-                {
-                    InputInvalidException e = new InputInvalidException("Location should only contain alphanumerical characters, -, !, &, / and ' characters");
                     Log.Warning(e.Message);
                     throw e;
                 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Models;
 using BL;
+using Serilog;
 
 namespace WebUI.Controllers
 {
@@ -17,13 +18,33 @@ namespace WebUI.Controllers
         {
             _bl = bl;
         }
-        // GET: StoreController
-        public ActionResult Index(int id)
-        {
-            ViewBag.Customer = _bl.GetOneCustomer(id);
 
-            List<Store> stores = _bl.GetCustomerStores();
-            return View(stores);
+        // GET: StoreController
+        public ActionResult Index(string message)
+        {
+            if (HttpContext.Session.GetString("name") == null)
+            {
+                return RedirectToAction("Index", "Customer");
+            }
+            else
+            {
+                ViewBag.Name = HttpContext.Session.GetString("name");
+                ViewBag.Success = message;
+
+                List<Store> stores = _bl.GetCustomerStores();
+                return View(stores);
+            }
+        }
+
+        // GET: CustomerController/Index
+        public ActionResult Logout()
+        {
+            HttpContext.Session.Remove("name");
+            HttpContext.Session.Remove("phonenumber");
+
+            Log.Information("Logged out...");
+
+            return RedirectToAction("Index", "Customer");
         }
 
         // GET: StoreController/Details/5

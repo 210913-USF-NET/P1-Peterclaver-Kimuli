@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using DL;
 using BL;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace WebUI
 {
@@ -42,6 +43,8 @@ namespace WebUI
             services.AddScoped<IBL, CBL>();
             //^that's our dependency injection.
             //We're "registering" the dependencies that our controllers need!
+
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,11 +61,14 @@ namespace WebUI
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
