@@ -48,9 +48,24 @@ namespace WebUI.Controllers
         }
 
         // GET: StoreController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string name)
         {
-            return View();
+            HttpContext.Session.SetString("storename", name);
+
+            ViewBag.Name = name;
+
+            List<Product> returnedProd = _bl.GetProducts(name);
+            List<Product> p = new List<Product>();
+
+            foreach(Product item in returnedProd)
+            {
+                if(item.Quantity != 0)
+                {
+                    p.Add(item);
+                }
+            }
+
+            return View(p);
         }
 
         // GET: StoreController/Create

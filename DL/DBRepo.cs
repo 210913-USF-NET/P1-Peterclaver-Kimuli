@@ -274,6 +274,22 @@ namespace DL
             ).ToList();
             
         }
+
+        public Product GetOneProduct(int id)
+        {
+            Product product = _context.Products.FirstOrDefault(p => p.Id == id);
+            
+            return new Product()
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Quantity = product.Quantity,
+                    UnitPrice = product.UnitPrice,
+                    StoreID = product.StoreID
+                };
+
+        }
+
         /// <summary>
         /// This method returns only the stores that were created by a particular manager
         /// </summary>

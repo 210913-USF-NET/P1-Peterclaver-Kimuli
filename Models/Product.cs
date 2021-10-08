@@ -9,10 +9,8 @@ namespace Models
     {
         
         public Product(){}
-        public Product(string name, int quantity, decimal unitPrice){
-            this.Name = name;
-            this.Quantity = quantity;
-            this.UnitPrice = unitPrice;
+        public Product(string storeID){
+            this.StoreID = storeID;
         }
 
         public int Id { get; set; }

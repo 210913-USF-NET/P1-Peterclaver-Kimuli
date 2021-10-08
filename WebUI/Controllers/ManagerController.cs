@@ -33,6 +33,8 @@ namespace WebUI.Controllers
 
                 ViewBag.Message = message;
 
+                HttpContext.Session.Remove("storename");
+
                 List<Store> stores = _bl.GetManagerStores(HttpContext.Session.GetString("phonenumber"));
                 return View(stores);
             }
@@ -44,6 +46,7 @@ namespace WebUI.Controllers
         {
             HttpContext.Session.Remove("manager");
             HttpContext.Session.Remove("phonenumber");
+            HttpContext.Session.Remove("storename");
 
             Log.Information("Manager Logged out...");
 
@@ -51,9 +54,24 @@ namespace WebUI.Controllers
         }
 
         // GET: ManagerController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string name, string message)
         {
-            return View();
+
+            if(name != null)
+            {
+                if (HttpContext.Session.GetString("storename") != null)
+                {
+                    HttpContext.Session.Remove("storename");
+                }
+
+                HttpContext.Session.SetString("storename", name);
+            }
+
+            ViewBag.Name = HttpContext.Session.GetString("storename");
+
+            ViewBag.Message = message;
+
+            return View(_bl.GetProducts(ViewBag.Name));
         }
 
         // GET: ManagerController/Create/5
@@ -77,7 +95,7 @@ namespace WebUI.Controllers
                     return RedirectToAction("Index", "Manager", new { message = "Store successfully created" });
                     Log.Information("Store created Successfully");
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create));
             }
             catch
             {
@@ -120,6 +138,71 @@ namespace WebUI.Controllers
             try
             {
                 return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public ActionResult CreateProduct(string message)
+        {
+
+            ViewBag.Message = message;
+
+            return View();
+        }
+
+        // POST: ManagerController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateProduct(ProductVM product)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    product.StoreID = HttpContext.Session.GetString("storename");
+                    Product addedProduct = _bl.AddProduct(product.ToModel());
+
+                    return RedirectToAction(nameof(CreateProduct), new {message = "Product successfully created" });
+                    Log.Information("Product created Successfully");
+                }
+                return View();
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public ActionResult EditProduct(int id)
+        {
+            ProductVM product = new ProductVM(_bl.GetOneProduct(id));
+
+            ViewBag.Name = product.Name;
+
+            return View(product);
+        }
+
+        // POST: ManagerController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditProduct(int id, ProductVM product) 
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    product.StoreID = HttpContext.Session.GetString("storename");
+                    _bl.UpdateProduct(product.ToModel());
+
+                    Log.Information("Product successfully updated");
+
+                    return RedirectToAction(nameof(Details), new { message = "Product successfully updated" });
+                }
+
+                return View();
             }
             catch
             {

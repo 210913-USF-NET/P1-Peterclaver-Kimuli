@@ -60,6 +60,10 @@ namespace BL
         {
             return _repo.GetProducts(storeNumber);
         }
+        public Product GetOneProduct(int id)
+        {
+            return _repo.GetOneProduct(id);
+        }
 
         public List<Customer> GetCustomerSearch(string name)
         {
