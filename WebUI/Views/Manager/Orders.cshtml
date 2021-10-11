@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Models.Order>
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<h1>Orders</h1>
+
+@if (@ViewBag.Check != null)
+{
+    <p>This store does not have orders yet...</p>
+    <p>
+        <a asp-action="Details">Back to Store</a>
+    </p>
+}
+else
+{
+    @foreach (var item in Model)
+    {
+        <div>
+            <span>Order no: <b>@item.Id</b></span> <span style="margin-left: 10em;">Customer name: <b>@item.CustomerName</b></span> <span style="margin-left: 10em;">Customer Phone number: <b>@item.CustomerPhone</b></span> <span style="margin-left: 10em;">Date: <b>@item.OrderDate.ToString("d")</b></span>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Items
+                    </th>
+                    <th>
+                        Quantity
+                    </th>
+                    <th>
+                        Cost
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var i in item.Items)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => i.ProductName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => i.Quantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => i.Cost)
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td><b>Total Price</b></td>
+                    <td></td>
+                    <td><b>@Html.DisplayFor(modelItem => item.Total) </b></td>
+                </tr>
+            </tbody>
+        </table>
+    }
+
+    <p>
+        <a asp-action="Details">Back to Store</a>
+    </p>
+}

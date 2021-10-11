@@ -450,6 +450,7 @@ namespace DL
                     Total = o.Total,
                     StoreID = o.StoreID,
                     CustomerName = o.CustomerName,
+                    CustomerPhone = o.CustomerPhone,
                     Items = o.Items.Select(i => new LineItem(){
                         ProductName = i.ProductName,
                         Quantity = i.Quantity,
@@ -474,6 +475,7 @@ namespace DL
                     Total = o.Total,
                     StoreID = o.StoreID,
                     CustomerName = o.CustomerName,
+                    CustomerPhone = o.CustomerPhone,
                     Items = o.Items.Select(i => new LineItem()
                     {
                         ProductName = i.ProductName,

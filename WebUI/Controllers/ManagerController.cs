@@ -92,14 +92,31 @@ namespace WebUI.Controllers
                     store.ManagerPhone = HttpContext.Session.GetString("phonenumber");
                     Store addedStore = _bl.AddStore(store.ToModel());
 
-                    return RedirectToAction("Index", "Manager", new { message = "Store successfully created" });
                     Log.Information("Store created Successfully");
+
+                    return RedirectToAction("Index", "Manager", new { message = "Store successfully created" });
                 }
                 return RedirectToAction(nameof(Create));
             }
             catch
             {
                 return View();
+            }
+        }
+
+        // GET: StoreController/Details/5
+        public ActionResult Orders()
+        {
+            List<Order> orders = _bl.GetStoreOrders(HttpContext.Session.GetString("storename"));
+            if (orders.Count == 0)
+            {
+                ViewBag.Check = true;
+                return View();
+            }
+            else
+            {
+                Log.Information("Order History displayed");
+                return View(orders);
             }
         }
 

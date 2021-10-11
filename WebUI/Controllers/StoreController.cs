@@ -80,7 +80,7 @@ namespace WebUI.Controllers
         // POST: StoreController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Details(Product product, int quantity)
+        public ActionResult Details(Product product)
         {
             List<Product> returnedProd = _bl.GetProducts(HttpContext.Session.GetString("storename"));
 
@@ -88,14 +88,7 @@ namespace WebUI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if(product.Quantity > quantity)
-                    {
-                        ViewBag.Message = "The input quantity is more than the available quantity";
-                        return View(returnedProd);
-                    }
-                    else
-                    {
-                        List<LineItem> items = new List<LineItem>();
+                    List<LineItem> items = new List<LineItem>();
 
                         LineItem item = new LineItem();
                         item.ProductId = product.Id;
@@ -118,7 +111,7 @@ namespace WebUI.Controllers
                         }
 
                         return RedirectToAction(nameof(Details), new { name = HttpContext.Session.GetString("storename") });
-                    }
+                   
                     
                 }
                 return RedirectToAction(nameof(Details), new { name = HttpContext.Session.GetString("storename") });
@@ -170,6 +163,8 @@ namespace WebUI.Controllers
                 order.OrderDate = DateTime.Today;
                 Order addedOrder = _bl.AddOrder(order);
 
+                Log.Information("Order successfully created");
+
                 for (int i = 0; i < items.Count; i++)
                 {
                     items[i].OrderId = addedOrder.Id;
@@ -191,6 +186,7 @@ namespace WebUI.Controllers
             }
             catch
             {
+                Log.Error("Order Failed to create");
                 return View();
             }
         }
@@ -206,6 +202,7 @@ namespace WebUI.Controllers
             }
             else
             {
+                Log.Information("Order History displayed");
                 return View(orders);
             }
         }
@@ -232,19 +229,41 @@ namespace WebUI.Controllers
         }
 
         // GET: StoreController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult EditItem(int id)
         {
-            return View();
+            LineItem item = new LineItem();
+
+            List<LineItem> items = HttpContext.Session.GetComplexData<List<LineItem>>("productadded");
+
+            foreach(LineItem item1 in items)
+            {
+                if(item1.ProductId == id)
+                {
+                    item = item1;
+                }
+            }
+
+            return View(item);
         }
 
         // POST: StoreController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult EditItem(int id, LineItem item)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                /*if (ModelState.IsValid)
+                {
+                    product.StoreID = HttpContext.Session.GetString("storename");
+                    _bl.UpdateProduct(product.ToModel());
+
+                    Log.Information("Product successfully updated");
+
+                    return RedirectToAction(nameof(Details), new { message = "Product successfully updated" });
+                }*/
+
+                return View();
             }
             catch
             {
