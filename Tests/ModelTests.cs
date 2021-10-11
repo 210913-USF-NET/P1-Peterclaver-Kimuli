@@ -93,7 +93,6 @@ namespace Tests
 
         [Theory]
         [InlineData("")]
-        [InlineData("+=#^")]
         public void StoreLocationShouldNotAllowInvalidInput(string input){
             //Arrange
             Store test = new Store();

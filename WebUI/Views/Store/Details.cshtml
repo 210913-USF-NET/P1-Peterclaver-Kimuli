@@ -2,12 +2,14 @@
 
 @{
     ViewData["Title"] = "Details";
+
+    int p = 0;
 }
 
 <h1>@ViewBag.Name</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Cart">View Cart</a>
 </p>
 <table class="table">
     <thead>
@@ -25,7 +27,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -37,11 +40,78 @@
                 @Html.DisplayFor(modelItem => item.UnitPrice)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                <button class="myBtn" onclick="f(@p)">Add to Cart</button>
+                <div id="myModal" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close" onclick="s(@p)">&times;</span>
+                        <p><b>@Html.DisplayFor(modelItem => item.Name)</b></p>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <form asp-action="Details">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <div class="form-group">
+                                        <input type="hidden" asp-for="@item.Id" name="Id" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="hidden" asp-for="@item.Name" name="Name" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for="@item.UnitPrice" class="control-label">Unit Price: </label> <span><b>@Html.DisplayFor(modelItem => item.UnitPrice)</b></span>
+                                        <input type="hidden" asp-for="@item.UnitPrice" name="UnitPrice" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for="@item.Quantity" class="control-label">Edit the number of items</label>
+                                        <input asp-for="@item.Quantity" class="form-control" name="Quantity" />
+                                        <span asp-validation-for="@item.Quantity" class="text-danger"></span>
+                                        @if (ViewBag.Message != null)
+                                        {
+                                            <p style="color: red;">@ViewBag.Message</p>
+                                        }
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" value="Add to cart" class="btn btn-primary" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })*@
             </td>
         </tr>
+    p++;
 }
     </tbody>
 </table>
+
+<p>
+    <a asp-action="Index">Back to Stores</a>
+</p>
+
+<script>
+    // Get the modal
+
+
+    function f(i) {
+        var modal = document.getElementsByClassName("modal")[i];
+        modal.style.display = "block";
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    }
+
+    function s(i) {
+        var modal = document.getElementsByClassName("modal")[i];
+        modal.style.display = "none";
+    }
+
+</script>
+
+

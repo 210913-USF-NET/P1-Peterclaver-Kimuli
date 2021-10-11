@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 using Models;
 using BL;
 using Serilog;
+using WebUI.Models;
 
 namespace WebUI.Controllers
 {
     public class StoreController : Controller
     {
         private IBL _bl;
-
         public StoreController(IBL bl)
         {
             _bl = bl;
@@ -41,6 +41,7 @@ namespace WebUI.Controllers
         {
             HttpContext.Session.Remove("name");
             HttpContext.Session.Remove("phonenumber");
+            HttpContext.Session.Remove("productadded");
 
             Log.Information("Logged out...");
 
@@ -50,7 +51,15 @@ namespace WebUI.Controllers
         // GET: StoreController/Details/5
         public ActionResult Details(string name)
         {
-            HttpContext.Session.SetString("storename", name);
+            if(name == null)
+            {
+                name = HttpContext.Session.GetString("storename");
+            }
+            else
+            {
+
+                HttpContext.Session.SetString("storename", name);
+            }
 
             ViewBag.Name = name;
 
@@ -66,6 +75,139 @@ namespace WebUI.Controllers
             }
 
             return View(p);
+        }
+
+        // POST: StoreController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Details(Product product, int quantity)
+        {
+            List<Product> returnedProd = _bl.GetProducts(HttpContext.Session.GetString("storename"));
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if(product.Quantity > quantity)
+                    {
+                        ViewBag.Message = "The input quantity is more than the available quantity";
+                        return View(returnedProd);
+                    }
+                    else
+                    {
+                        List<LineItem> items = new List<LineItem>();
+
+                        LineItem item = new LineItem();
+                        item.ProductId = product.Id;
+                        item.ProductName = product.Name;
+                        item.Quantity = product.Quantity;
+                        item.Cost = product.Quantity * product.UnitPrice;
+
+                        items.Add(item);
+
+                        List<LineItem> items1 = HttpContext.Session.GetComplexData<List<LineItem>>("productadded");
+
+                        if (items1 == null)
+                        {
+                            HttpContext.Session.SetComplexData("productadded", items);
+                        }
+                        else
+                        {
+                            items1.Add(item);
+                            HttpContext.Session.SetComplexData("productadded", items1);
+                        }
+
+                        return RedirectToAction(nameof(Details), new { name = HttpContext.Session.GetString("storename") });
+                    }
+                    
+                }
+                return RedirectToAction(nameof(Details), new { name = HttpContext.Session.GetString("storename") });
+            }
+            catch
+            {
+                return View(returnedProd);
+            }
+        }
+
+        // GET: StoreController/Cart
+        public ActionResult Cart()
+        {
+            List<LineItem> cart = HttpContext.Session.GetComplexData<List<LineItem>>("productadded");
+            if (cart != null)
+            {
+                ViewBag.Check = true;
+
+                decimal total = 0.0M;
+                for (int i = 0; i < cart.Count; i++)
+                {
+                    total += cart[i].Cost;
+                }
+
+                ViewBag.total = total;
+            }
+
+            return View(cart);
+        }
+
+        // POST: StoreController/Cart
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Cart(List<LineItem> items)
+        {
+            try
+            {
+                items = HttpContext.Session.GetComplexData<List<LineItem>>("productadded");
+
+                Order order = new Order();
+                order.Total = 0;
+                for (int i = 0; i < items.Count; i++)
+                {
+                    order.Total += items[i].Cost;
+                }
+                order.CustomerPhone = HttpContext.Session.GetString("phonenumber"); 
+                order.StoreID = HttpContext.Session.GetString("storename"); 
+                order.CustomerName = HttpContext.Session.GetString("name");
+                order.OrderDate = DateTime.Today;
+                Order addedOrder = _bl.AddOrder(order);
+
+                for (int i = 0; i < items.Count; i++)
+                {
+                    items[i].OrderId = addedOrder.Id;
+                }
+
+                List<LineItem> addedItems = _bl.AddLineItems(items);
+
+                foreach(LineItem l in items)
+                {
+                    Product p = _bl.GetOneProduct(l.ProductId);
+                    int newQuantity = p.Quantity - l.Quantity;
+                    p.Quantity = newQuantity;
+
+                    _bl.UpdateProduct(p);
+                }
+                HttpContext.Session.Remove("productadded");
+
+                return RedirectToAction(nameof(Cart));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: StoreController/Details/5
+        public ActionResult Orders()
+        {
+            List<Order> orders = _bl.GetCustomerOrders(HttpContext.Session.GetString("phonenumber"));
+            if (orders.Count == 0)
+            {
+                ViewBag.Check = true;
+                return View();
+            }
+            else
+            {
+                return View(orders);
+            }
         }
 
         // GET: StoreController/Create

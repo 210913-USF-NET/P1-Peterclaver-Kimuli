@@ -165,8 +165,9 @@ namespace WebUI.Controllers
                     product.StoreID = HttpContext.Session.GetString("storename");
                     Product addedProduct = _bl.AddProduct(product.ToModel());
 
-                    return RedirectToAction(nameof(CreateProduct), new {message = "Product successfully created" });
                     Log.Information("Product created Successfully");
+
+                    return RedirectToAction(nameof(CreateProduct), new {message = "Product successfully created" });
                 }
                 return View();
             }

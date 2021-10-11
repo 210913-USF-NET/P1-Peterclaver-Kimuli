@@ -277,7 +277,7 @@ namespace DL
 
         public Product GetOneProduct(int id)
         {
-            Product product = _context.Products.FirstOrDefault(p => p.Id == id);
+            Product product = _context.Products.AsNoTracking().FirstOrDefault(p => p.Id == id);
             
             return new Product()
                 {
@@ -332,7 +332,8 @@ namespace DL
                 Total = order.Total,
                 CustomerPhone = order.CustomerPhone,
                 StoreID = order.StoreID,
-                OrderDate = order.OrderDate
+                OrderDate = order.OrderDate,
+                CustomerName = order.CustomerName
             };
 
             newOrder = _context.Add(newOrder).Entity;
