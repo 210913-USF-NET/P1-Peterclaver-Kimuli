@@ -192,40 +192,37 @@ namespace WebUI.Controllers
         }
 
         // GET: StoreController/Details/5
-        public ActionResult Orders()
+        public ActionResult Orders(string sort)
         {
-            List<Order> orders = _bl.GetCustomerOrders(HttpContext.Session.GetString("phonenumber"));
-            if (orders.Count == 0)
+            if (sort == null)
             {
-                ViewBag.Check = true;
-                return View();
+                List<Order> orders = _bl.GetCustomerOrders(HttpContext.Session.GetString("phonenumber"));
+                if (orders.Count == 0)
+                {
+                    ViewBag.Check = true;
+                    return View();
+                }
+                else
+                {
+                    Log.Information("Order History displayed");
+                    return View(orders);
+                }
             }
             else
             {
-                Log.Information("Order History displayed");
-                return View(orders);
+                List<Order> orders = _bl.GetCustomerOrdersByCost(HttpContext.Session.GetString("phonenumber"));
+                if (orders.Count == 0)
+                {
+                    ViewBag.Check = true;
+                    return View();
+                }
+                else
+                {
+                    Log.Information("Order sorted by cost");
+                    return View(orders);
+                }
             }
-        }
-
-        // GET: StoreController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: StoreController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            
         }
 
         // GET: StoreController/Edit/5
@@ -253,21 +250,43 @@ namespace WebUI.Controllers
         {
             try
             {
-                /*if (ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
-                    product.StoreID = HttpContext.Session.GetString("storename");
-                    _bl.UpdateProduct(product.ToModel());
+
+                    List<LineItem> items = HttpContext.Session.GetComplexData<List<LineItem>>("productadded");
+                    HttpContext.Session.Remove("productadded");
+
+                    LineItem t = new LineItem();
+
+                    for (int i = 0; i < items.Count; i++)
+                    {
+                        if (items[i].ProductId == item.ProductId)
+                        {
+                            t = items[i];
+                            items.Remove(items[i]);
+                            decimal unitPrice = t.Cost / t.Quantity;
+                            t.Quantity = item.Quantity;
+                            t.Cost = t.Quantity * unitPrice;
+                            if(t.Quantity > 0)
+                            {
+                                items.Insert(i, t);
+                            }
+                        }
+                    }
+
+                    HttpContext.Session.SetComplexData("productadded", items);
 
                     Log.Information("Product successfully updated");
 
-                    return RedirectToAction(nameof(Details), new { message = "Product successfully updated" });
-                }*/
+                    return RedirectToAction(nameof(Cart));
+                
+                }
 
-                return View();
+                return View(item);
             }
             catch
             {
-                return View();
+                return View(item);
             }
         }
 

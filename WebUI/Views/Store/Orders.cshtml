@@ -15,6 +15,10 @@
 }
 else
 {
+<p style="text-align: right">
+    <a asp-action="Orders" asp-route-sort="sort">Sort by Cost</a>
+</p>
+    
     @foreach (var item in Model)
     {
         <div>

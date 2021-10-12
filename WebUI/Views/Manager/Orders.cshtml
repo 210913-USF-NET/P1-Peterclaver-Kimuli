@@ -15,10 +15,14 @@
 }
 else
 {
+    <p style="text-align: right">
+        <a asp-action="Orders" asp-route-sort="sort">Sort by Cost</a>
+    </p>
+
     @foreach (var item in Model)
     {
         <div>
-            <span>Order no: <b>@item.Id</b></span> <span style="margin-left: 10em;">Customer name: <b>@item.CustomerName</b></span> <span style="margin-left: 10em;">Customer Phone number: <b>@item.CustomerPhone</b></span> <span style="margin-left: 10em;">Date: <b>@item.OrderDate.ToString("d")</b></span>
+            <span>Order no: <b>@item.Id</b></span> <span style="margin-left: 5em;">Customer name: <b>@item.CustomerName</b></span> <span style="margin-left: 5em;">Customer Phone number: <b>@item.CustomerPhone</b></span> <span style="margin-left: 5em;">Date: <b>@item.OrderDate.ToString("d")</b></span>
         </div>
 
         <table class="table">

@@ -105,19 +105,37 @@ namespace WebUI.Controllers
         }
 
         // GET: StoreController/Details/5
-        public ActionResult Orders()
+        public ActionResult Orders(string sort)
         {
-            List<Order> orders = _bl.GetStoreOrders(HttpContext.Session.GetString("storename"));
-            if (orders.Count == 0)
+            if (sort == null)
             {
-                ViewBag.Check = true;
-                return View();
+                List<Order> orders = _bl.GetStoreOrders(HttpContext.Session.GetString("storename"));
+                if (orders.Count == 0)
+                {
+                    ViewBag.Check = true;
+                    return View();
+                }
+                else
+                {
+                    Log.Information("Order History displayed");
+                    return View(orders);
+                }
             }
             else
             {
-                Log.Information("Order History displayed");
-                return View(orders);
+                List<Order> orders = _bl.GetStoreOrdersByCost(HttpContext.Session.GetString("storename"));
+                if (orders.Count == 0)
+                {
+                    ViewBag.Check = true;
+                    return View();
+                }
+                else
+                {
+                    Log.Information("Order sorted by cost");
+                    return View(orders);
+                }
             }
+
         }
 
         // GET: ManagerController/Edit/5
