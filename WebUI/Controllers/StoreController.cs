@@ -19,6 +19,11 @@ namespace WebUI.Controllers
             _bl = bl;
         }
 
+        /// <summary>
+        /// This method displays the home page for a customer.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns>Returns a page displaying all the stores in the DB</returns>
         // GET: StoreController
         public ActionResult Index(string message)
         {
@@ -36,6 +41,10 @@ namespace WebUI.Controllers
             }
         }
 
+        /// <summary>
+        /// This method is used to log out the customer...
+        /// </summary>
+        /// <returns>Returns the login page.</returns>
         // GET: CustomerController/Index
         public ActionResult Logout()
         {
@@ -48,6 +57,11 @@ namespace WebUI.Controllers
             return RedirectToAction("Index", "Customer");
         }
 
+        /// <summary>
+        /// This method displays the products for a specific store
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>Returns the products for a particular store</returns>
         // GET: StoreController/Details/5
         public ActionResult Details(string name)
         {
@@ -77,6 +91,11 @@ namespace WebUI.Controllers
             return View(p);
         }
 
+        /// <summary>
+        /// This method is used when a customer adds a product to the cart
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns>Returns the products for a particular store</returns>
         // POST: StoreController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -122,6 +141,10 @@ namespace WebUI.Controllers
             }
         }
 
+        /// <summary>
+        /// This method displays the products the customer added in the cart.
+        /// </summary>
+        /// <returns>Returns the cart page</returns>
         // GET: StoreController/Cart
         public ActionResult Cart()
         {
@@ -142,6 +165,11 @@ namespace WebUI.Controllers
             return View(cart);
         }
 
+        /// <summary>
+        /// This method posts the items in the cart to the DB.
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns>Returns the empty page of the cart.</returns>
         // POST: StoreController/Cart
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -191,6 +219,11 @@ namespace WebUI.Controllers
             }
         }
 
+        /// <summary>
+        /// This method returns a page that displays all the orders that were made by a customer
+        /// </summary>
+        /// <param name="sort"></param>
+        /// <returns>Returns the page that displays all the orders that were made by a customer</returns>
         // GET: StoreController/Details/5
         public ActionResult Orders(string sort)
         {
@@ -225,6 +258,11 @@ namespace WebUI.Controllers
             
         }
 
+        /// <summary>
+        /// This method displays the product in the cart that is to be edited by the customer
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Returns a page that displays the product in the cart that is to be edited by the customer</returns>
         // GET: StoreController/Edit/5
         public ActionResult EditItem(int id)
         {
@@ -243,6 +281,12 @@ namespace WebUI.Controllers
             return View(item);
         }
 
+        /// <summary>
+        /// This methods updates the edited item in the cart.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="item"></param>
+        /// <returns>Returns the cart page with the updated product.</returns>
         // POST: StoreController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -287,27 +331,6 @@ namespace WebUI.Controllers
             catch
             {
                 return View(item);
-            }
-        }
-
-        // GET: StoreController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: StoreController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
             }
         }
     }

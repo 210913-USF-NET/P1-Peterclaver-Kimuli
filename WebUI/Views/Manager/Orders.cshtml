@@ -2,9 +2,10 @@
 
 @{
     ViewData["Title"] = "Orders";
+    Layout = "_LayoutManager";
 }
 
-<h1>Orders</h1>
+<h3>Orders</h3>
 
 @if (@ViewBag.Check != null)
 {
@@ -15,6 +16,10 @@
 }
 else
 {
+    <p>
+        <a asp-action="Details">Back to Store</a>
+    </p>
+
     <p style="text-align: right">
         <a asp-action="Orders" asp-route-sort="sort">Sort by Cost</a>
     </p>
@@ -25,8 +30,8 @@ else
             <span>Order no: <b>@item.Id</b></span> <span style="margin-left: 5em;">Customer name: <b>@item.CustomerName</b></span> <span style="margin-left: 5em;">Customer Phone number: <b>@item.CustomerPhone</b></span> <span style="margin-left: 5em;">Date: <b>@item.OrderDate.ToString("d")</b></span>
         </div>
 
-        <table class="table">
-            <thead>
+        <table class="table table-hover">
+            <thead class="table-primary">
                 <tr>
                     <th>
                         Items

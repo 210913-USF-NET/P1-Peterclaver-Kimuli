@@ -2,14 +2,15 @@
 
 @{
     ViewData["Title"] = "Cart";
+    Layout = "_LayoutStore";
 }
 
-<h1>Cart</h1>
+<h5>Cart</h5>
 
 @if (ViewBag.Check != null)
 {
-    <table class="table">
-        <thead>
+    <table class="table table-hover">
+        <thead class="table-primary">
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.ProductName)
@@ -37,17 +38,19 @@
                         @Html.DisplayFor(modelItem => item.Cost)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "EditItem", new { id=item.ProductId}) <!--|-->
+                        @Html.ActionLink("Edit", "EditItem", new { id = item.ProductId }) <!--|-->
                         @*@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
                     </td>
                 </tr>
             }
+        </tbody>
+        <tfoot>
             <tr>
                 <td><b>Total Price</b></td>
                 <td></td>
                 <td><b>@ViewBag.total</b></td>
             </tr>
-        </tbody>
+        </tfoot>
     </table>
 
     <div class="row">

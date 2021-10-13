@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<Models.Store>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Stores";
+    Layout = "_LayoutManager";
 }
 
-<h1>Index</h1>
-<h4>@ViewBag.Name</h4>
+<h5>@ViewBag.Name</h5>
 
 <p>
     <a asp-action="Create">Create a new store</a>
@@ -19,8 +19,8 @@
     </script>
 }
 
-<table class="table">
-    <thead>
+<table class="table table-hover">
+    <thead class="table-primary">
         <tr>
             <th>
                 Store Name
@@ -35,25 +35,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Number)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Zipcode)
-            </td>
-            <td>
-                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@
-                @Html.ActionLink("Details", "Details", new { name = item.Number }) @*|
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Zipcode)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@
+                    @Html.ActionLink("Details", "Details", new { name = item.Number }) @*|
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
-
-<a asp-action="Logout">Logout</a>

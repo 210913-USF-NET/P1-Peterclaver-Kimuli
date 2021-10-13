@@ -11,16 +11,31 @@ using Serilog;
 
 namespace WebUI.Controllers
 {
+    /// <summary>
+    /// This is the class for the customer controller
+    /// </summary>
     public class CustomerController : Controller
     {
         private IBL _bl;
 
+        
         public CustomerController(IBL bl) => _bl = bl;
+
+        /// <summary>
+        /// Used when a customer is logging into their account
+        /// </summary>
+        /// <returns>Returns the Login page</returns>
         public ActionResult Index()
         {
             return View();
         }
 
+        
+        /// <summary>
+        /// Used by a customer or manager during Login
+        /// </summary>
+        /// <param name="customer"></param>
+        /// <returns>Redirects the customer to the store controller</returns>
         // POST: CustomerController/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -71,12 +86,21 @@ namespace WebUI.Controllers
             }
         }
 
+        /// <summary>
+        /// Used when a customer is creating a new account
+        /// </summary>
+        /// <returns>Returns the signup page</returns>
         // GET: CustomerController/Signup
         public ActionResult Signup()
         {
             return View();
         }
 
+        /// <summary>
+        /// Used when a customer is creating a new account
+        /// </summary>
+        /// <param name="customer"></param>
+        /// <returns>Redirects the new customer to the store controller</returns>
         // POST: CustomerController/Signup
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -110,48 +134,6 @@ namespace WebUI.Controllers
 
                 return View();
 
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: CustomerController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: CustomerController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: CustomerController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: CustomerController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
             }
             catch
             {

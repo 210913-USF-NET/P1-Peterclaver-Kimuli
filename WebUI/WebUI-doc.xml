@@ -1,0 +1,190 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebUI</name>
+    </assembly>
+    <members>
+        <member name="T:WebUI.Controllers.CustomerController">
+            <summary>
+            This is the class for the customer controller
+            </summary>
+        </member>
+        <member name="M:WebUI.Controllers.CustomerController.Index">
+            <summary>
+            Used when a customer is logging into their account
+            </summary>
+            <returns>Returns the Login page</returns>
+        </member>
+        <member name="M:WebUI.Controllers.CustomerController.Index(Models.Customer)">
+            <summary>
+            Used by a customer or manager during Login
+            </summary>
+            <param name="customer"></param>
+            <returns>Redirects the customer to the store controller</returns>
+        </member>
+        <member name="M:WebUI.Controllers.CustomerController.Signup">
+            <summary>
+            Used when a customer is creating a new account
+            </summary>
+            <returns>Returns the signup page</returns>
+        </member>
+        <member name="M:WebUI.Controllers.CustomerController.Signup(WebUI.Models.CustomerVM)">
+            <summary>
+            Used when a customer is creating a new account
+            </summary>
+            <param name="customer"></param>
+            <returns>Redirects the new customer to the store controller</returns>
+        </member>
+        <member name="M:WebUI.Controllers.ManagerController.Index(System.String)">
+            <summary>
+            This function displays the stores that were created by the manager
+            </summary>
+            <param name="message"></param>
+            <returns>Returns the home page for the manager interface</returns>
+        </member>
+        <member name="M:WebUI.Controllers.ManagerController.Logout">
+            <summary>
+            This method is used to log out the manager...
+            </summary>
+            <returns>Returns the login page.</returns>
+        </member>
+        <member name="M:WebUI.Controllers.ManagerController.Details(System.String,System.String)">
+            <summary>
+            This method displays the products for a specific store
+            </summary>
+            <param name="name"></param>
+            <param name="message"></param>
+            <returns>Returns the products for a particular store</returns>
+        </member>
+        <member name="M:WebUI.Controllers.ManagerController.Create(System.Int32)">
+            <summary>
+            Used by the manage to create a new store
+            </summary>
+            <param name="id"></param>
+            <returns>Returns the page for creation of a new store</returns>
+        </member>
+        <member name="M:WebUI.Controllers.ManagerController.Create(WebUI.Models.StoreVM)">
+            <summary>
+            Posts the newly created store to the DB
+            </summary>
+            <param name="store"></param>
+            <returns>Returns the store creation page</returns>
+        </member>
+        <member name="M:WebUI.Controllers.ManagerController.Orders(System.String)">
+            <summary>
+            This method returns the page that displays the orders for a particular store
+            </summary>
+            <param name="sort"></param>
+            <returns>Returns orders that were made to a particular store</returns>
+        </member>
+        <member name="M:WebUI.Controllers.ManagerController.CreateProduct(System.String)">
+            <summary>
+            This method returns the page used by a manager to create a product.
+            </summary>
+            <param name="message"></param>
+            <returns>Returns the page used by a manager to create a product.</returns>
+        </member>
+        <member name="M:WebUI.Controllers.ManagerController.CreateProduct(WebUI.Models.ProductVM)">
+            <summary>
+            This method posts the created product to the DB.
+            </summary>
+            <param name="product"></param>
+            <returns>Returns the page used by a manager to create a product.</returns>
+        </member>
+        <member name="M:WebUI.Controllers.ManagerController.EditProduct(System.Int32)">
+            <summary>
+            This method returns the page used by a manager to edit a product.
+            </summary>
+            <param name="id"></param>
+            <returns>Returns the page used by a manager to edit a product.</returns>
+        </member>
+        <member name="M:WebUI.Controllers.ManagerController.EditProduct(System.Int32,WebUI.Models.ProductVM)">
+            <summary>
+            This method updates the edited product in the DB.
+            </summary>
+            <param name="id"></param>
+            <param name="product"></param>
+            <returns>Returns the page used by a manager to create a product.</returns>
+        </member>
+        <member name="M:WebUI.Controllers.StoreController.Index(System.String)">
+            <summary>
+            This method displays the home page for a customer.
+            </summary>
+            <param name="message"></param>
+            <returns>Returns a page displaying all the stores in the DB</returns>
+        </member>
+        <member name="M:WebUI.Controllers.StoreController.Logout">
+            <summary>
+            This method is used to log out the customer...
+            </summary>
+            <returns>Returns the login page.</returns>
+        </member>
+        <member name="M:WebUI.Controllers.StoreController.Details(System.String)">
+            <summary>
+            This method displays the products for a specific store
+            </summary>
+            <param name="name"></param>
+            <returns>Returns the products for a particular store</returns>
+        </member>
+        <member name="M:WebUI.Controllers.StoreController.Details(Models.Product)">
+            <summary>
+            This method is used when a customer adds a product to the cart
+            </summary>
+            <param name="product"></param>
+            <returns>Returns the products for a particular store</returns>
+        </member>
+        <member name="M:WebUI.Controllers.StoreController.Cart">
+            <summary>
+            This method displays the products the customer added in the cart.
+            </summary>
+            <returns>Returns the cart page</returns>
+        </member>
+        <member name="M:WebUI.Controllers.StoreController.Cart(System.Collections.Generic.List{Models.LineItem})">
+            <summary>
+            This method posts the items in the cart to the DB.
+            </summary>
+            <param name="items"></param>
+            <returns>Returns the empty page of the cart.</returns>
+        </member>
+        <member name="M:WebUI.Controllers.StoreController.Orders(System.String)">
+            <summary>
+            This method returns a page that displays all the orders that were made by a customer
+            </summary>
+            <param name="sort"></param>
+            <returns>Returns the page that displays all the orders that were made by a customer</returns>
+        </member>
+        <member name="M:WebUI.Controllers.StoreController.EditItem(System.Int32)">
+            <summary>
+            This method displays the product in the cart that is to be edited by the customer
+            </summary>
+            <param name="id"></param>
+            <returns>Returns a page that displays the product in the cart that is to be edited by the customer</returns>
+        </member>
+        <member name="M:WebUI.Controllers.StoreController.EditItem(System.Int32,Models.LineItem)">
+            <summary>
+            This methods updates the edited item in the cart.
+            </summary>
+            <param name="id"></param>
+            <param name="item"></param>
+            <returns>Returns the cart page with the updated product.</returns>
+        </member>
+        <member name="M:WebUI.Models.CustomerVM.ToModel">
+            <summary>
+            This method is used to map CustomerVM model in Web.Models to Customer Model in Models
+            </summary>
+            <returns>Returns a customer object</returns>
+        </member>
+        <member name="M:WebUI.Models.ProductVM.ToModel">
+            <summary>
+            This method is used to map CustomerVM model in Web.Models to Customer Model in Models
+            </summary>
+            <returns>Returns a customer object</returns>
+        </member>
+        <member name="M:WebUI.Models.StoreVM.ToModel">
+            <summary>
+            This method is used to map CustomerVM model in Web.Models to Customer Model in Models
+            </summary>
+            <returns>Returns a customer object</returns>
+        </member>
+    </members>
+</doc>

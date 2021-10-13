@@ -2,54 +2,55 @@
 
 @{
     ViewData["Title"] = "Signup";
+    ViewData["AuthAction"] = "Index";
+    ViewData["Auth"] = "Login";
+    Layout = "_LayoutCustomer";
 }
 
-<h1>ShoppingApp</h1>
+<h1 style="text-align:center">The Shopping App</h1>
 
-<h4>Signup</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Signup">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <!--<div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div> -->
-            @if (ViewBag.Message != null)
-            {
-                <p style="color: red;">@ViewBag.Message</p>
-            }
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+<div class="card border-info mx-auto w-50">
+    <h4 class="card-header">Signup</h4>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8">
+                <form asp-action="Signup">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    @if (ViewBag.Message != null)
+                    {
+                        <p style="color: red;">@ViewBag.Message</p>
+                    }
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Phonenumber" class="control-label">Phone number</label>
+                        <input asp-for="Phonenumber" class="form-control" />
+                        <span asp-validation-for="Phonenumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input type="password" asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password2" class="control-label">Confirm your password</label>
+                        <input type="password" asp-for="Password2" class="form-control" />
+                        <span asp-validation-for="Password2" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Signup" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Phonenumber" class="control-label"></label>
-                <input asp-for="Phonenumber" class="form-control" />
-                <span asp-validation-for="Phonenumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input type="password" asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password2" class="control-label">Confirm your password</label>
-                <input type="password" asp-for="Password2" class="form-control" />
-                <span asp-validation-for="Password2" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Signup" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+
+        <div>
+            <a asp-action="Index">Have an account? Login!</a>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Have an account? Login!</a>
 </div>
 
 @section Scripts {
