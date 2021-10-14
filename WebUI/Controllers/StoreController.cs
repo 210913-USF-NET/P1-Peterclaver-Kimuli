@@ -117,16 +117,16 @@ namespace WebUI.Controllers
 
                         items.Add(item);
 
-                        List<LineItem> items1 = HttpContext.Session.GetComplexData<List<LineItem>>("productadded");
+                        List<LineItem> items1 = HttpContext.Session.Get<List<LineItem>>("productadded");
 
                         if (items1 == null)
                         {
-                            HttpContext.Session.SetComplexData("productadded", items);
+                            HttpContext.Session.Set<List<LineItem>>("productadded", items);
                         }
                         else
                         {
                             items1.Add(item);
-                            HttpContext.Session.SetComplexData("productadded", items1);
+                            HttpContext.Session.Set<List<LineItem>>("productadded", items);
                         }
 
                         return RedirectToAction(nameof(Details), new { name = HttpContext.Session.GetString("storename") });
@@ -148,7 +148,7 @@ namespace WebUI.Controllers
         // GET: StoreController/Cart
         public ActionResult Cart()
         {
-            List<LineItem> cart = HttpContext.Session.GetComplexData<List<LineItem>>("productadded");
+            List<LineItem> cart = HttpContext.Session.Get<List<LineItem>>("productadded");
             if (cart != null)
             {
                 ViewBag.Check = true;
@@ -177,7 +177,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                items = HttpContext.Session.GetComplexData<List<LineItem>>("productadded");
+                items = HttpContext.Session.Get<List<LineItem>>("productadded");
 
                 Order order = new Order();
                 order.Total = 0;
@@ -268,7 +268,7 @@ namespace WebUI.Controllers
         {
             LineItem item = new LineItem();
 
-            List<LineItem> items = HttpContext.Session.GetComplexData<List<LineItem>>("productadded");
+            List<LineItem> items = HttpContext.Session.Get<List<LineItem>>("productadded");
 
             foreach(LineItem item1 in items)
             {
@@ -297,7 +297,7 @@ namespace WebUI.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    List<LineItem> items = HttpContext.Session.GetComplexData<List<LineItem>>("productadded");
+                    List<LineItem> items = HttpContext.Session.Get<List<LineItem>>("productadded");
                     HttpContext.Session.Remove("productadded");
 
                     LineItem t = new LineItem();
@@ -318,7 +318,7 @@ namespace WebUI.Controllers
                         }
                     }
 
-                    HttpContext.Session.SetComplexData("productadded", items);
+                    HttpContext.Session.Set<List<LineItem>>("productadded", items);
 
                     Log.Information("Product successfully updated");
 
