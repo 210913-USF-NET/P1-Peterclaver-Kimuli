@@ -59,6 +59,9 @@ Features to add or improve
 - DB structure is 3NF
 - Have an ER Diagram
 
+##ERD Diagrams
+![image](https://user-images.githubusercontent.com/30950839/138115637-6d3851ce-f064-4d43-a915-2a7e77f6f5da.png)
+
 
 
 
